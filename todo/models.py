@@ -14,4 +14,4 @@ class ToDo(models.Model):
         verbose_name_plural='Todos'
     
     def __str__(self):
-        return self.title()
+        return self.title
