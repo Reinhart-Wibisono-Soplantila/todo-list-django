@@ -8,10 +8,12 @@ router=DefaultRouter()
 router.register(r'todos',ToDoViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    # Menggunakan Viewset
+    # path('api/', include(router.urls)),
     
-    path('todoapi/', ToDoAPIView.as_view()),
-    path('todoapi/<int:todo_id>', ToDoAPIView.as_view())
+    # Menggunakan APIView
+    path('api/', ToDoAPIView.as_view()),
+    path('api/<int:todo_id>', ToDoAPIView.as_view())
 ]
 
 
