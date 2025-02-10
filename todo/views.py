@@ -57,7 +57,23 @@ class ToDoAPIView(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    # PUT & PATCH
+    # Tanpa Partial (Mengupdate semua data)
     def put(self, request, todo_id):
+        todo_object=get_object_or_404(ToDo, id=todo_id)
+        serializer=ToDoSerializers(todo_object, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                "status_code":status.HTTP_200_OK,
+                "status":"success",
+                "message":"successfully update data",
+                "data":serializer.data
+            }, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Menggunakan Partial (Mengupdate data yang hanya diubah)
+    def patch(self, request, todo_id):
         todo_object=get_object_or_404(ToDo, id=todo_id)
         serializer=ToDoSerializers(todo_object, data=request.data, partial=True)
         if serializer.is_valid():
@@ -79,3 +95,10 @@ class ToDoAPIView(APIView):
             "message":"successfully delete data"
         }, status=status.HTTP_204_NO_CONTENT)
         
+    def options(self, request, *args, **kwargs):
+        return Response({
+            "status_code":status.HTTP_200_OK,
+            "status":"success",
+            "allow":["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+            "message":"These are the allowed methods for this endpoint."
+        })
