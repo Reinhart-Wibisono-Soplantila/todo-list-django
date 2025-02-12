@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     
     'django.contrib.sites',
     'rest_framework',
-    'rest_framework.authtoken', # Nyalakan untuk menyalakan key agar login memberikan return
+    # 'rest_framework.authtoken', # Nyalakan untuk menyalakan key agar login memberikan return
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'allauth',
