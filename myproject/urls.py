@@ -14,7 +14,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from .views import LogoutView
+from .views import LogoutView, RegisterView
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -26,7 +26,7 @@ urlpatterns = [
     # Endpoint autentikasi
     # path('api/auth/', include('dj_rest_auth.urls')),
     # path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
-
+    path('register', RegisterView.as_view(), name='register'),
     path('api/auth/logout/', LogoutView.as_view(), name='logout'),
     
     # Endpoint untuk mendapatkan token baru

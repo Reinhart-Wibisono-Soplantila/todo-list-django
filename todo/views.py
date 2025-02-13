@@ -13,7 +13,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import NotFound, ValidationError
 
 from .models import ToDo
-from .serializers import ToDoSerializers
+from .serializers import ToDoSerializers, RegistrationSerializers
 
 # Create your views here.
 
@@ -21,7 +21,6 @@ from .serializers import ToDoSerializers
 class ToDoViewSet(viewsets.ModelViewSet):
     queryset=ToDo.objects.all()
     serializer_class=ToDoSerializers
-    
 
 # Penggunaan APIView
 class ToDoAPIView(APIView):
