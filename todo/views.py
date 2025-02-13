@@ -27,47 +27,47 @@ class ToDoViewSet(viewsets.ModelViewSet):
 class ToDoAPIView(APIView):
     def get(self, request, todo_id=None):
         try:
-            # todo_by_user=ToDo.objects.filter(user=request.user)
-            # status=request.query_params.get('status')
-            # if status:
-            #     todos=todo_by_user.filter(status=status)
+            todos=ToDo.objects.filter(user=request.user)
+            todo_by_status=request.query_params.get('status')
+            if todo_by_status:
+                todos=todos.filter(status=todo_by_status)
             
-            # date=request.query_params.get('created_at')
-            # if date:
-            #     todos=todo_by_user.filter(created_at__date=date)
+            todo_by_date=request.query_params.get('created_at')
+            if todo_by_date:
+                todos=todos.filter(created_at__date=todo_by_date)
             
-            # search=request.query_params.get('search')
-            # if search:
-            #     todos=todo_by_user.filter(title__icontains=search)|todo_by_user.filter(description__icontains=search)
+            todo_by_search=request.query_params.get('search')
+            if todo_by_search:
+                todos=todos.filter(title__icontains=todo_by_search)|todos.filter(description__icontains=todo_by_search)
             
-            # serializer=ToDoSerializers(todos, many=True)
-            # return Response({
-            #     "status_code":status.HTTP_200_OK,
-            #     "status":"success",
-            #     "message":"Successfully retireved all data",
-            #     "data":serializer.data
-            # }, status=status.HTTP_200_OK)    
-                
-            # Get Specific 
-            if todo_id:
-                todo_object=get_object_or_404(ToDo, id=todo_id)
-                serializer=ToDoSerializers(todo_object)
-                return Response({
-                    "status_code":status.HTTP_200_OK,
-                    "status":"success",
-                    "message":"Successfully retireved specific data",
-                    "data":serializer.data
-                }, status=status.HTTP_200_OK)
-            
-            # Get All
-            todo_object=ToDo.objects.all()
-            serializer=ToDoSerializers(todo_object, many=True)
+            serializer=ToDoSerializers(todos, many=True)
             return Response({
                 "status_code":status.HTTP_200_OK,
                 "status":"success",
                 "message":"Successfully retireved all data",
                 "data":serializer.data
-            }, status=status.HTTP_200_OK)
+            }, status=status.HTTP_200_OK)    
+                
+            # # Get Specific 
+            # if todo_id:
+            #     todo_object=get_object_or_404(ToDo, id=todo_id)
+            #     serializer=ToDoSerializers(todo_object)
+            #     return Response({
+            #         "status_code":status.HTTP_200_OK,
+            #         "status":"success",
+            #         "message":"Successfully retireved specific data",
+            #         "data":serializer.data
+            #     }, status=status.HTTP_200_OK)
+            
+            # # Get All
+            # todo_object=ToDo.objects.all()
+            # serializer=ToDoSerializers(todo_object, many=True)
+            # return Response({
+            #     "status_code":status.HTTP_200_OK,
+            #     "status":"success",
+            #     "message":"Successfully retireved all data",
+            #     "data":serializer.data
+            # }, status=status.HTTP_200_OK)
         
         except Exception as e:
             return Response({
@@ -80,7 +80,7 @@ class ToDoAPIView(APIView):
         try:
             serializer=ToDoSerializers(data=request.data)
             if serializer.is_valid():
-                serializer.save()
+                serializer.save(user=request.user)
                 return Response({
                     "status_code":status.HTTP_201_CREATED,
                     "status":"success",
