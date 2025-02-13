@@ -27,6 +27,27 @@ class ToDoViewSet(viewsets.ModelViewSet):
 class ToDoAPIView(APIView):
     def get(self, request, todo_id=None):
         try:
+            # todo_by_user=ToDo.objects.filter(user=request.user)
+            # status=request.query_params.get('status')
+            # if status:
+            #     todos=todo_by_user.filter(status=status)
+            
+            # date=request.query_params.get('created_at')
+            # if date:
+            #     todos=todo_by_user.filter(created_at__date=date)
+            
+            # search=request.query_params.get('search')
+            # if search:
+            #     todos=todo_by_user.filter(title__icontains=search)|todo_by_user.filter(description__icontains=search)
+            
+            # serializer=ToDoSerializers(todos, many=True)
+            # return Response({
+            #     "status_code":status.HTTP_200_OK,
+            #     "status":"success",
+            #     "message":"Successfully retireved all data",
+            #     "data":serializer.data
+            # }, status=status.HTTP_200_OK)    
+                
             # Get Specific 
             if todo_id:
                 todo_object=get_object_or_404(ToDo, id=todo_id)
